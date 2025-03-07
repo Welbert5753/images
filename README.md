@@ -1,48 +1,209 @@
-# Development Containers Images
-
-<table style="width: 100%; border-style: none;"><tr>
-<td style="width: 140px; text-align: center;"><a href="https://github.com/devcontainers"><img width="128px" src="https://raw.githubusercontent.com/microsoft/fluentui-system-icons/78c9587b995299d5bfc007a0077773556ecb0994/assets/Cube/SVG/ic_fluent_cube_32_filled.svg" alt="devcontainers organization logo"/></a></td>
-<td>
-<strong>Development Container Images</strong><br />
-Published docker images for use as development containers
-</td>
-</tr></table>
-
-
-A **development container** is a running [Docker](https://www.docker.com) container with a well-defined tool/runtime stack and its prerequisites. It allows you to use a container as a full-featured development environment which can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing.
-
-This repository contains a set of **dev container images** which are Docker images built with [dev container features](https://github.com/devcontainers/features).
-
-## Contents
- 
-- [`src`](src) - Contains reusable dev container images.
-
-## Common Questions
-### How does this repo relate to the dev container spec? What is the dev container specification?
-
-The Development Containers Specification seeks to find ways to enrich existing formats with common development specific settings, tools, and configuration while still providing a simplified, un-orchestrated single container option – so that they can be used as coding environments or for continuous integration and testing. You may review the spec and learn more about it in the [devcontainers/spec](https://github.com/devcontainers/spec) repo and [containers.dev](https://containers.dev/).
-
-This repository supplies images that may be used in dev container configurations that follow the spec.
-### What is the goal of `devcontainer.json`?
-
-A `devcontainer.json` file is similar to `launch.json` for debugging, but designed to launch (or attach to) a development container instead. At its simplest, all you need is a `.devcontainer/devcontainer.json` file in your project that references an image, `Dockerfile`, or `docker-compose.yml`, and a few properties.
-
-### Why do Dockerfiles in this repo use `RUN` statements with commands separated by `&&`?
-
-Each `RUN` statement creates a Docker image "layer". If one `RUN` statement adds temporary contents, these contents remain in this layer in the image even if they are deleted in a subsequent `RUN`. This means the image takes more storage locally and results in slower image download times if you publish the image to a registry. You can resolve this problem by using a `RUN` statement that includes any clean up steps (separated by `&&`) after a given operation. You can find more tips [here](./docs/TIPS.md/#why-do-dockerfiles-in-this-repository-use-run-statements-with-commands-separated-by).
-
-### How can I contribute?
-
-If you want to create your own image or add functionality on top of the images available in this repository, then see [How to write Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) and the [dev container features reference](https://containers.dev/implementors/features/). 
-
-This repository contains a select set of images, and we encourage the community to host and share additional images, and features rather than adding them here. You may learn more about this process in [the guidance](https://containers.dev/implementors/features-distribution/) in our spec repo. You may also check out the [features](https://github.com/devcontainers/features) repo for additional customizations you may adopt or modify for your dev containers.
-
-## Feedback
-
-Issues related to these images can be reported in [an issue](https://github.com/devcontainers/images/issues) in this repository.
-
-# License
-Copyright (c) Microsoft Corporation. All rights reserved. <br />
-Licensed under the MIT License. See [LICENSE](LICENSE).
-
-For images generated from this repository, see [LICENSE](https://github.com/microsoft/containerregistry/blob/main/legal/Container-Images-Legal-Notice.md) and [NOTICE.txt](NOTICE.txt).
+{
+        "version": "2.12.6",
+        "build": {
+                "latest": true,
+                "rootDistro": "debian",
+                "tags": [
+                        "universal:${VERSION}-focal",
+                        "universal:${VERSION}-linux",
+                        "universal:${VERSION}"
+                ]
+        },
+        "dependencies": {
+                "annotation": "This document describes the base contents of the Universal image. Note that this image also includes detection logic to dynamically install additional language / runtime versions based on your repository's contents. Dynamically installed content can be found in sub-folders under `/opt`.",
+                "image": "ubuntu:focal",
+                "imageLink": "https://hub.docker.com/_/ubuntu",
+                "apt": [
+                        {
+                                "cgIgnore": false,
+                                "name": "moby-cli",
+                                "annotation": "Docker CLI"
+                        },
+                        {
+                                "cgIgnore": false,
+                                "name": "moby-engine",
+                                "annotation": "Docker Engine"
+                        },
+                        {
+                                "cgIgnore": false,
+                                "name": "git-lfs",
+                                "annotation": "Git Large File Support"
+                        },
+                        "cmake",
+                        "build-essential",
+                        "cmake",
+                        "cppcheck",
+                        "valgrind",
+                        "lldb",
+                        "llvm",
+                        "gdb",
+                        "clang",
+                        "python3-dev",
+                        "vim",
+                        "vim-doc",
+                        "xtail",
+                        "software-properties-common",
+                        "libsecret-1-dev",
+                        "libnss3",
+                        "libnspr4",
+                        "libatk-bridge2.0-0",
+                        "libatk1.0-0",
+                        "libx11-6",
+                        "libpangocairo-1.0-0",
+                        "libx11-xcb1",
+                        "libcups2",
+                        "libxcomposite1",
+                        "libxdamage1",
+                        "libxfixes3",
+                        "libpango-1.0-0",
+                        "libgbm1",
+                        "libgtk-3-0",
+                        "openssh-server",
+                        "lxc",
+                        "pigz",
+                        "iptables",
+                        "tar",
+                        "g++",
+                        "gcc",
+                        "libc6-dev",
+                        "make",
+                        "pkg-config",
+                        "sed",
+                        "python3-minimal"
+                ],
+                "pipx": [
+                        "pylint",
+                        "flake8",
+                        "autopep8",
+                        "black",
+                        "yapf",
+                        "mypy",
+                        "pydocstyle",
+                        "pycodestyle",
+                        "bandit",
+                        "virtualenv",
+                        "pipx"
+                ],
+                "git": {
+                        "Oh My Zsh!": "/home/codespace/.oh-my-zsh",
+                        "nvm": "/usr/local/share/nvm",
+                        "nvs": "/usr/local/nvs",
+                        "rbenv": "/usr/local/share/rbenv",
+                        "ruby-build": "/usr/local/share/ruby-build"
+                },
+                "gem": [
+                        "rake",
+                        "ruby-debug-ide",
+                        "debase",
+                        "jekyll"
+                ],
+                "go": {
+                        "golang.org/x/tools/gopls": null,
+                        "honnef.co/go/tools": null,
+                        "golang.org/x/lint": null,
+                        "github.com/mgechev/revive": null,
+                        "github.com/uudashr/gopkgs": null,
+                        "github.com/ramya-rao-a/go-outline": null,
+                        "github.com/go-delve/delve": null,
+                        "github.com/golangci/golangci-lint": null
+                },
+                "pip": [
+                        "numpy",
+                        "pandas",
+                        "scipy",
+                        "matplotlib",
+                        "seaborn",
+                        "scikit-learn",
+                        "torch",
+                        "requests",
+                        "plotly",
+                        "jupyterlab_git",
+                        "certifi",
+                        "setuptools",
+                        "wheel"
+                ],
+                "other": {
+                        "git": {},
+                        "Xdebug": {
+                                "path": "/usr/local/php/current"
+                        },
+                        "Composer": {
+                                "cgIgnore": true,
+                                "path": "/usr/local/php/current/bin"
+                        },
+                        "kubectl": null,
+                        "Helm": null,
+                        "Docker Compose": null,
+                        "SDKMAN!": null,
+                        "rvm": null,
+                        "GitHub CLI": null,
+                        "yarn": {
+                                "cgIgnore": true,
+                                "path": "/usr/bin"
+                        },
+                        "Maven": {
+                                "cgIgnore": true,
+                                "path": "/usr/local/sdkman/candidates/maven/current/bin"
+                        },
+                        "Gradle": {
+                                "cgIgnore": true,
+                                "path": "/usr/local/sdkman/candidates/gradle/current/bin"
+                        },
+                        "Docker (Moby) CLI & Engine": {
+                                "cgIgnore": true
+                        },
+                        "conda": {
+                                "cgIgnore": true,
+                                "path": "/opt/conda/bin"
+                        }
+                },
+                "languages": {
+                        "Node.js": {
+                                "cgIgnore": true,
+                                "versionCommand": "ls /usr/local/share/nvm/versions/node | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'",
+                                "path": "/usr/local/share/nvm/versions/node/&lt;version&gt;"
+                        },
+                        "Python": {
+                                "cgIgnore": true,
+                                "versionCommand": "ls /usr/local/python | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'",
+                                "path": "/usr/local/python/&lt;version&gt;"
+                        },
+                        "Java": {
+                                "cgIgnore": true,
+                                "versionCommand": "ls /usr/local/sdkman/candidates/java | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'",
+                                "path": "/usr/local/sdkman/candidates/java/&lt;version&gt;"
+                        },
+                        ".NET": {
+                                "cgIgnore": true,
+                                "versionCommand": "dotnet --version",
+                                "path": "/usr/share/dotnet/dotnet"
+                        },
+                        "Ruby": {
+                                "cgIgnore": true,
+                                "versionCommand": "ls /usr/local/rvm/rubies | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'",
+                                "path": "/usr/local/rvm/rubies/&lt;version&gt;"
+                        },
+                        "PHP": {
+                                "cgIgnore": true,
+                                "versionCommand": "ls /usr/local/php | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'",
+                                "path": "/usr/local/php/&lt;version&gt;"
+                        },
+                        "GCC": {
+                                "cgIgnore": true
+                        },
+                        "Clang": {
+                                "cgIgnore": true
+                        },
+                        "Go": null,
+                        "Jekyll": {
+                                "cgIgnore": true
+                        },
+                        "Jupyter Lab": {
+                                "cgIgnore": true,
+                                "versionCommand": "jupyter-lab --version",
+                                "path": "/home/codespace/.local/bin/jupyter-lab",
+                                "downloadUrl": "https://jupyter.org/"
+                        }
+                }
+        }
+}
